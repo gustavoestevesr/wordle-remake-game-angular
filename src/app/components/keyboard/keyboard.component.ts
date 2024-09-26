@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { KeyboardButtonComponent } from '../keyboard-button/keyboard-button.component';
 import { CommonModule } from '@angular/common';
 
@@ -7,9 +7,11 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, KeyboardButtonComponent],
   templateUrl: './keyboard.component.html',
-  styleUrl: './keyboard.component.scss'
+  styleUrl: './keyboard.component.scss',
 })
 export class KeyboardComponent {
+  @Output() letterSelected = new EventEmitter<string>();
+
   public readonly qwertyAlphabet = [
     { label: 'Q', disabled: false },
     { label: 'W', disabled: false },
@@ -38,15 +40,20 @@ export class KeyboardComponent {
     { label: 'B', disabled: false },
     { label: 'N', disabled: false },
     { label: 'M', disabled: false },
-    { label: 'ENTER', disabled: false }
+    { label: 'ENTER', disabled: false },
   ];
 
-  buttonClicked(letterButton: string) {
+  buttonClicked(letterSelected: string) {
+    // Send the letter to the parent (main code)
+    this.letterSelected.emit(letterSelected);
+
     // Return nothing if it was pressed ENTER OR DELETE
-    if (letterButton === 'ENTER' || letterButton === 'DEL') return;
+    if (letterSelected === 'ENTER' || letterSelected === 'DEL') return;
 
     // Find the letter in qwertyAlphabet
-    const letterIndex = this.qwertyAlphabet.findIndex((letter) => letter.label === letterButton)
+    const letterIndex = this.qwertyAlphabet.findIndex(
+      (letter) => letter.label === letterSelected
+    );
 
     // Return nothing if it doesn't find
     if (letterIndex === -1) return;
