@@ -1,1 +1,8 @@
-<p>keyboard-button works!</p>
+<button
+  class="keyboard-button"
+  [ngClass]="tip"
+  [disabled]="disabled"
+  (click)="onButtonClick()"
+>
+  <span class="letter-button">{{ letter }}</span>
+</button>

@@ -1,1 +1,8 @@
-<p>keyboard works!</p>
+<div class="keyboard-container">
+  <app-keyboard-button
+    *ngFor="let letra of qwertyAlphabet"
+    [letter]="letra.label"
+    [disabled]="letra.disabled"
+    (buttonClicked)="buttonClicked($event)"
+  ></app-keyboard-button>
+</div>

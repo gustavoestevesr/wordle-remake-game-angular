@@ -1,0 +1,36 @@
+.keyboard-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  height: 50px;
+  background-color: #404142;
+  border: 1px solid gray;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+
+  .letter-button {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white;
+  }
+}
+
+.keyboard-button.correct {
+  background-color: #538d4e;
+}
+
+.keyboard-button.almost {
+  background-color: #b59f3b;
+}
+
+.keyboard-button:disabled {
+  background-color: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.keyboard-button:active {
+  background-color: #5a5a5a;
+}
