@@ -1,7 +1,7 @@
 @for (row of wordleService.getMatrixSlots(); track $index) {
   <div class="flex">
     @for (slot of row; track $index) {
-      <div class="flex justify-center items-center text-3xl w-16 h-16 bg-slate-400 m-1 uppercase font-bold text-white" [ngClass]="slot.tip">{{ slot.key }}</div>
+      <div [ngClass]="slot.tip" class="flex justify-center items-center text-3xl w-16 h-16 m-1 uppercase font-bold text-white" [ngClass]="slot.tip">{{ slot.key }}</div>
     }
   </div>
 }
