@@ -1,29 +1,32 @@
-<div class="keyboard-container">
-  <div *ngFor="let letra of qwertyAlphabet1">
+<div class="flex flex-wrap justify-center gap-1 p-1">
+  @for (letra of qwertyAlphabet1; track $index) {
     <app-keyboard-button
-      [letter]="letra.label"
-      [disabled]="letra.disabled"
-      (buttonClicked)="buttonClicked($event)"
-    ></app-keyboard-button>
-  </div>
+    [letter]="letra.key"
+    [class]="letra.tip"
+    [disabled]="letra.disabled"
+    (letterClicked)="getLetterClicked($event)"
+  ></app-keyboard-button>
+  }
 </div>
 
-<div class="keyboard-container">
-  <div *ngFor="let letra of qwertyAlphabet2">
-    <app-keyboard-button
-      [letter]="letra.label"
+<div class="flex flex-wrap justify-center gap-1 p-1">
+    @for (letra of qwertyAlphabet2; track $index) {
+      <app-keyboard-button
+      [letter]="letra.key"
+      [class]="letra.tip"
       [disabled]="letra.disabled"
-      (buttonClicked)="buttonClicked($event)"
+      (letterClicked)="getLetterClicked($event)"
     ></app-keyboard-button>
-  </div>
+    }
 </div>
 
-<div class="keyboard-container">
-  <div *ngFor="let letra of qwertyAlphabet3">
+<div class="flex flex-wrap justify-center gap-1 p-1">
+  @for (letra of qwertyAlphabet3; track $index) {
     <app-keyboard-button
-      [letter]="letra.label"
-      [disabled]="letra.disabled"
-      (buttonClicked)="buttonClicked($event)"
-    ></app-keyboard-button>
-  </div>
+    [letter]="letra.key"
+    [class]="letra.tip"
+    [disabled]="letra.disabled"
+    (letterClicked)="getLetterClicked($event)"
+  ></app-keyboard-button>
+  }
 </div>

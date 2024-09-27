@@ -11,12 +11,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class KeyboardButtonComponent {
   @Input() letter!: string;
   @Input() disabled!: boolean;
-  @Input() tip!: 'correct' | 'almost';
-  @Output() buttonClicked = new EventEmitter<string>();
+  @Input() tip!: 'correct' | 'almost' | 'none';
+  @Output() letterClicked = new EventEmitter<string>();
 
-  onButtonClick() {
+  onLetterClicked() {
     if (!this.disabled) {
-      this.buttonClicked.emit(this.letter);
+      this.letterClicked.emit(this.letter);
     }
   }
 }
