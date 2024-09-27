@@ -1,32 +1,31 @@
-<div class="flex flex-wrap justify-center gap-1 p-1">
-  @for (letra of qwertyAlphabet1; track $index) {
-    <app-keyboard-button
-    [letter]="letra.key"
-    [class]="letra.tip"
-    [disabled]="letra.disabled"
-    (letterClicked)="getLetterClicked($event)"
-  ></app-keyboard-button>
-  }
-</div>
-
-<div class="flex flex-wrap justify-center gap-1 p-1">
-    @for (letra of qwertyAlphabet2; track $index) {
+<div class="keyboard-pc">
+  <div class="flex flex-wrap justify-center gap-1 p-1">
+    @for (letra of qwertyAlphabet1; track $index) {
       <app-keyboard-button
       [letter]="letra.key"
       [class]="letra.tip"
-      [disabled]="letra.disabled"
       (letterClicked)="getLetterClicked($event)"
     ></app-keyboard-button>
     }
-</div>
+  </div>
 
-<div class="flex flex-wrap justify-center gap-1 p-1">
-  @for (letra of qwertyAlphabet3; track $index) {
-    <app-keyboard-button
-    [letter]="letra.key"
-    [class]="letra.tip"
-    [disabled]="letra.disabled"
-    (letterClicked)="getLetterClicked($event)"
-  ></app-keyboard-button>
-  }
+  <div class="flex flex-wrap justify-center gap-1 p-1">
+      @for (letra of qwertyAlphabet2; track $index) {
+        <app-keyboard-button
+        [letter]="letra.key"
+        [class]="letra.tip"
+        (letterClicked)="getLetterClicked($event)"
+      ></app-keyboard-button>
+      }
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-1 p-1">
+    @for (letra of qwertyAlphabet3; track $index) {
+      <app-keyboard-button
+      [letter]="letra.key"
+      [class]="letra.tip"
+      (letterClicked)="getLetterClicked($event)"
+    ></app-keyboard-button>
+    }
+  </div>
 </div>

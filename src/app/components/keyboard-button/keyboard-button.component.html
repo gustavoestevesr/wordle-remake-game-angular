@@ -1,8 +1,3 @@
-<button
-  class="keyboard-button"
-  [ngClass]="tip"
-  [disabled]="disabled"
-  (click)="onLetterClicked()"
->
+<button class="keyboard-button" [ngClass]="tip" (click)="onLetterClicked()">
   <span class="letter-button">{{ letter }}</span>
 </button>
