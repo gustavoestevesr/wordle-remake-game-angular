@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { KeyboardButtonComponent } from '../keyboard-button/keyboard-button.component';
 import { CommonModule } from '@angular/common';
+import { WordleService } from '../../services/wordle.service';
 
 @Component({
   selector: 'app-keyboard',
@@ -10,9 +11,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './keyboard.component.scss',
 })
 export class KeyboardComponent {
-  @Output() letterSelected = new EventEmitter<string>();
+  private wordleService = inject(WordleService);
 
-  public readonly qwertyAlphabet = [
+  public readonly qwertyAlphabet1 = [
     { label: 'Q', disabled: false },
     { label: 'W', disabled: false },
     { label: 'E', disabled: false },
@@ -23,6 +24,9 @@ export class KeyboardComponent {
     { label: 'I', disabled: false },
     { label: 'O', disabled: false },
     { label: 'P', disabled: false },
+  ];
+
+  public readonly qwertyAlphabet2 = [
     { label: 'A', disabled: false },
     { label: 'S', disabled: false },
     { label: 'D', disabled: false },
@@ -32,10 +36,13 @@ export class KeyboardComponent {
     { label: 'J', disabled: false },
     { label: 'K', disabled: false },
     { label: 'L', disabled: false },
+  ];
+
+  public readonly qwertyAlphabet3 = [
+    { label: 'DEL', disabled: false },
     { label: 'Z', disabled: false },
     { label: 'X', disabled: false },
     { label: 'C', disabled: false },
-    { label: 'DEL', disabled: false },
     { label: 'V', disabled: false },
     { label: 'B', disabled: false },
     { label: 'N', disabled: false },
@@ -44,21 +51,31 @@ export class KeyboardComponent {
   ];
 
   buttonClicked(letterSelected: string) {
-    // Send the letter to the parent (main code)
-    this.letterSelected.emit(letterSelected);
+    if (letterSelected === 'DEL') {
+      this.wordleService.removeLastLetterKickedFromUser();
+      return;
+    }
 
-    // Return nothing if it was pressed ENTER OR DELETE
-    if (letterSelected === 'ENTER' || letterSelected === 'DEL') return;
+    if (letterSelected === 'ENTER') {
+      if (
+        this.wordleService.isWordValid() &&
+        !this.wordleService.isWordEqualsSecretWord()
+      ) {
+        this.wordleService.submitWordKicked();
+        return;
+      }
+    }
 
-    // Find the letter in qwertyAlphabet
-    const letterIndex = this.qwertyAlphabet.findIndex(
-      (letter) => letter.label === letterSelected
-    );
+    // Change the state of letter to disabled true
+    // if (this.wordleService.canDisableTheSlot()) {
+    //   this.wordleService.addLettersKickedFromUser(letterSelected);
+    //   const letterIndex = this.qwertyAlphabet.findIndex(
+    //     (letter) => letter.label === letterSelected
+    //   );
 
-    // Return nothing if it doesn't find
-    if (letterIndex === -1) return;
+    //   if (letterIndex === -1) return;
 
-    // Change the state of disabled
-    this.qwertyAlphabet[letterIndex].disabled = true;
+    //   this.qwertyAlphabet[letterIndex].disabled = true;
+    // }
   }
 }

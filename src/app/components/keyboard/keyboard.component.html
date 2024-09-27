@@ -1,8 +1,29 @@
 <div class="keyboard-container">
-  <app-keyboard-button
-    *ngFor="let letra of qwertyAlphabet"
-    [letter]="letra.label"
-    [disabled]="letra.disabled"
-    (buttonClicked)="buttonClicked($event)"
-  ></app-keyboard-button>
+  <div *ngFor="let letra of qwertyAlphabet1">
+    <app-keyboard-button
+      [letter]="letra.label"
+      [disabled]="letra.disabled"
+      (buttonClicked)="buttonClicked($event)"
+    ></app-keyboard-button>
+  </div>
+</div>
+
+<div class="keyboard-container">
+  <div *ngFor="let letra of qwertyAlphabet2">
+    <app-keyboard-button
+      [letter]="letra.label"
+      [disabled]="letra.disabled"
+      (buttonClicked)="buttonClicked($event)"
+    ></app-keyboard-button>
+  </div>
+</div>
+
+<div class="keyboard-container">
+  <div *ngFor="let letra of qwertyAlphabet3">
+    <app-keyboard-button
+      [letter]="letra.label"
+      [disabled]="letra.disabled"
+      (buttonClicked)="buttonClicked($event)"
+    ></app-keyboard-button>
+  </div>
 </div>
