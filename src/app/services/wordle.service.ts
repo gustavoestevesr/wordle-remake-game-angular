@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Slot } from '../components/keyboard/keyboard.component';
 import { FIVE_LETTERS_WORD } from '../constants/five-letters-word';
-import JSConfetti from 'js-confetti'
+import JSConfetti from 'js-confetti';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +10,14 @@ export class WordleService {
   private secretWord!: string;
   private difficultLevel = 5;
   private readonly MAX_TRIES = 6;
+
   private matrixSlots: Slot[][] = [];
   private currentRowIndex = 0;
   private currentColIndex = 0;
+
+  private timer = '00:00';
+  private timeLeft: number = 300; // 5 * 60 = 5 min
+  private interval: any;
 
   constructor() {
     this.setSecretWord(this.difficultLevel);
@@ -82,7 +87,9 @@ export class WordleService {
       .map((slot) => slot.key)
       .join('')
       .toLowerCase();
-    wordInTheCurrentRow = wordInTheCurrentRow.charAt(0).toUpperCase() + wordInTheCurrentRow.slice(1);
+    wordInTheCurrentRow =
+      wordInTheCurrentRow.charAt(0).toUpperCase() +
+      wordInTheCurrentRow.slice(1);
     return FIVE_LETTERS_WORD.includes(wordInTheCurrentRow);
   }
 
@@ -110,7 +117,7 @@ export class WordleService {
   removeLastLetterFromMatrix() {
     const hasNotLettersInTheRow = this.currentColIndex <= 0;
     if (hasNotLettersInTheRow) {
-      console.error('there is no letters to remove in this row');
+      console.error('There is no letters to remove in this row.');
       return;
     }
 
@@ -120,16 +127,26 @@ export class WordleService {
 
   submitWordToValidation() {
     if (this.isRowNotCompletelyFilled()) {
-      this.setDataAlertModal('alert', 'You need to fill all the slots to submit your guess', true, 'Confirmar')
+      this.setDataAlertModal(
+        'alert',
+        'Você precisa preencher todos os campos para submeter uma palavra.',
+        true,
+        'Confirmar'
+      );
       return console.error(
-        'you need to fill all the slots to submit your guess'
+        'You need to fill all the slots to submit your guess.'
       );
     }
 
     if (!this.isWordValid()) {
-      this.setDataAlertModal('alert', 'This word does not exist in my dictionary, try another one', true, 'Confirmar')
+      this.setDataAlertModal(
+        'alert',
+        'Essa palavra não existe em meu dicionário, tente novamente.',
+        true,
+        'Confirmar'
+      );
       return console.error(
-        'this word does not exist in my dictionary, try another one'
+        'This word does not exist in my dictionary, try another one.'
       );
     }
 
@@ -143,23 +160,34 @@ export class WordleService {
   }
 
   loseGame() {
-    this.setDataAlertModal('alert', 'You lose... The secret word was "' + this.secretWord + '"', true, 'Confirmar')
-    console.warn('you lose');
+    this.setDataAlertModal(
+      'alert',
+      'Você perdeu... A palavra secreta era "' + this.secretWord + '"',
+      true,
+      'Confirmar'
+    );
+    console.warn('you lose... The secret word was "' + this.secretWord + '"');
+    this.stopGame();
   }
 
   wonGame() {
-    const jsConfetti = new JSConfetti()
-    jsConfetti.addConfetti()
+    const jsConfetti = new JSConfetti();
+    jsConfetti.addConfetti({ confettiNumber: 300 });
 
-    this.setDataAlertModal('correct', 'You kicked correctly the misterious word! Congratulations', true, 'Confirmar')
-    console.warn('you won');
+    this.setDataAlertModal(
+      'correct',
+      'Você acertou a palavra secreta! Parabéns.',
+      true,
+      'Confirmar'
+    );
+    console.warn('You kicked correctly the misterious word! Congratulations.');
 
     this.stopGame();
   }
 
   stopGame() {
-    this.currentRowIndex = 999
-    this.currentColIndex = 999
+    this.currentRowIndex = 999;
+    this.currentColIndex = 999;
   }
 
   newTrie() {
@@ -184,18 +212,44 @@ export class WordleService {
     icon: 'alert',
     message: '',
     showModal: false,
-    textButton: 'Confirmar'
-  }
+    textButton: 'Confirmar',
+  };
 
-  setDataAlertModal(icon: string, message: string, showModal: boolean, textButton: string){
+  setDataAlertModal(
+    icon: string,
+    message: string,
+    showModal: boolean,
+    textButton: string
+  ) {
     this.alertModel = {
       icon,
       message,
-      showModal, textButton
-    }
+      showModal,
+      textButton,
+    };
   }
 
-  getDataAlertModal(){
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+
+        const minutes = Math.floor(this.timeLeft / 60);
+        const seconds = this.timeLeft % 60;
+
+        this.timer = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      } else {
+        clearInterval(this.interval);
+        this.loseGame();
+      }
+    }, 1000);
+  }
+
+  getTimer() {
+    return this.timer;
+  }
+
+  getDataAlertModal() {
     return this.alertModel;
   }
 
