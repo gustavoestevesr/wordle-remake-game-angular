@@ -105,7 +105,6 @@ export class WordleService {
     const wordInTheCurrentRow = row
       .map((slot) => slot.key)
       .join('')
-      .toLowerCase();
     return wordInTheCurrentRow === this.secretWord;
   }
 
@@ -155,12 +154,13 @@ export class WordleService {
       );
     }
 
+    this.setTipsInTheRowOfTheMatrix();
+
     if (this.isWordEqualsSecretWord()) {
       this.wonGame();
       return;
     }
 
-    this.setTipsInTheRowOfTheMatrix();
     this.newTrie();
   }
 
@@ -191,6 +191,7 @@ export class WordleService {
   stopGame() {
     this.currentRowIndex = 999;
     this.currentColIndex = 999;
+    this.stopTimer()
   }
 
   newTrie() {
@@ -219,6 +220,10 @@ export class WordleService {
       icon,
       message,
     };
+  }
+
+  stopTimer() {
+    clearInterval(this.interval);
   }
 
   startTimer() {
