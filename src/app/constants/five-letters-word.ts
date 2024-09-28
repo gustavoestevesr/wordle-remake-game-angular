@@ -149,7 +149,6 @@ export const FIVE_LETTERS_WORD = [
   'Vozes',
   'Verbo',
   'Voces',
-  'mundo',
 
   'Xingo',
   'Xeque',
@@ -293,11 +292,15 @@ export const FIVE_LETTERS_WORD = [
   'Elfos',
   'Falsa',
 
+  'Pedra',
+  'Rocha',
+  'Asilo',
+  'Linha',
+
   'Islan',
   'Jaspe',
   'Kilme',
   'Lente',
-  'Mundo',
   'Niche',
 
   'Perla',
