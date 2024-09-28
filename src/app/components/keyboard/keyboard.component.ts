@@ -44,7 +44,7 @@ export class KeyboardComponent {
   ];
 
   public readonly qwertyAlphabet3: Slot[] = [
-    { key: '⌫', tip: 'none' },
+    { key: '⏎', tip: 'none' },
     { key: 'Z', tip: 'none' },
     { key: 'X', tip: 'none' },
     { key: 'C', tip: 'none' },
@@ -52,7 +52,7 @@ export class KeyboardComponent {
     { key: 'B', tip: 'none' },
     { key: 'N', tip: 'none' },
     { key: 'M', tip: 'none' },
-    { key: '⏎', tip: 'none' },
+    { key: '⌫', tip: 'none' },
   ];
 
   getLetterClicked(letterSelected: string) {

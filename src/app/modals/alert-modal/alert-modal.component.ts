@@ -13,7 +13,6 @@ export class AlertModalComponent {
   @Input() showModal!: boolean;
   @Input() icon!: string;
   @Input() message!: string;
-  @Input() textButton!: string;
 
   public wordleService = inject(WordleService)
 }

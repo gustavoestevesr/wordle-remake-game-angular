@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import JSConfetti from 'js-confetti';
 import { Slot } from '../components/keyboard/keyboard.component';
 import { FIVE_LETTERS_WORD } from '../constants/five-letters-word';
-import JSConfetti from 'js-confetti';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,13 @@ export class WordleService {
   private timer = '00:00';
   private timeLeft: number = 300; // 5 * 60 = 5 min
   private interval: any;
+
+  private showHowToPlayModal = true
+  private showAlertModal = false
+  private alertModel = {
+    icon: 'alert',
+    message: '',
+  };
 
   constructor() {
     this.setSecretWord(this.difficultLevel);
@@ -130,9 +137,8 @@ export class WordleService {
       this.setDataAlertModal(
         'alert',
         'Você precisa preencher todos os campos para submeter uma palavra.',
-        true,
-        'Confirmar'
       );
+      this.toggleVisibilityAlertModal(true)
       return console.error(
         'You need to fill all the slots to submit your guess.'
       );
@@ -142,9 +148,8 @@ export class WordleService {
       this.setDataAlertModal(
         'alert',
         'Essa palavra não existe em meu dicionário, tente novamente.',
-        true,
-        'Confirmar'
       );
+      this.toggleVisibilityAlertModal(true)
       return console.error(
         'This word does not exist in my dictionary, try another one.'
       );
@@ -163,9 +168,8 @@ export class WordleService {
     this.setDataAlertModal(
       'alert',
       'Você perdeu... A palavra secreta era "' + this.secretWord + '"',
-      true,
-      'Confirmar'
     );
+    this.toggleVisibilityAlertModal(true)
     console.warn('you lose... The secret word was "' + this.secretWord + '"');
     this.stopGame();
   }
@@ -177,9 +181,8 @@ export class WordleService {
     this.setDataAlertModal(
       'correct',
       'Você acertou a palavra secreta! Parabéns.',
-      true,
-      'Confirmar'
     );
+    this.toggleVisibilityAlertModal(true)
     console.warn('You kicked correctly the misterious word! Congratulations.');
 
     this.stopGame();
@@ -208,24 +211,13 @@ export class WordleService {
     }
   }
 
-  alertModel = {
-    icon: 'alert',
-    message: '',
-    showModal: false,
-    textButton: 'Confirmar',
-  };
-
   setDataAlertModal(
     icon: string,
     message: string,
-    showModal: boolean,
-    textButton: string
   ) {
     this.alertModel = {
       icon,
       message,
-      showModal,
-      textButton,
     };
   }
 
@@ -243,6 +235,22 @@ export class WordleService {
         this.loseGame();
       }
     }, 1000);
+  }
+
+  toggleVisibilityHowToPlayModal(showModal: boolean) {
+    this.showHowToPlayModal = showModal
+  }
+
+  getShowHowToPlayModal() {
+    return this.showHowToPlayModal;
+  }
+
+  toggleVisibilityAlertModal(showModal: boolean) {
+    this.showAlertModal = showModal
+  }
+
+  getShowAlertModal() {
+    return this.showAlertModal;
   }
 
   getTimer() {
