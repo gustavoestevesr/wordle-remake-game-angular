@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Slot } from '../components/keyboard/keyboard.component';
 import { FIVE_LETTERS_WORD } from '../constants/five-letters-word';
+import JSConfetti from 'js-confetti'
 
 @Injectable({
   providedIn: 'root',
@@ -119,12 +120,14 @@ export class WordleService {
 
   submitWordToValidation() {
     if (this.isRowNotCompletelyFilled()) {
+      this.setDataAlertModal('alert', 'You need to fill all the slots to submit your guess', true, 'Confirmar')
       return console.error(
         'you need to fill all the slots to submit your guess'
       );
     }
 
     if (!this.isWordValid()) {
+      this.setDataAlertModal('alert', 'This word does not exist in my dictionary, try another one', true, 'Confirmar')
       return console.error(
         'this word does not exist in my dictionary, try another one'
       );
@@ -140,11 +143,23 @@ export class WordleService {
   }
 
   loseGame() {
+    this.setDataAlertModal('alert', 'You lose... The secret word was "' + this.secretWord + '"', true, 'Confirmar')
     console.warn('you lose');
   }
 
   wonGame() {
+    const jsConfetti = new JSConfetti()
+    jsConfetti.addConfetti()
+
+    this.setDataAlertModal('correct', 'You kicked correctly the misterious word! Congratulations', true, 'Confirmar')
     console.warn('you won');
+
+    this.stopGame();
+  }
+
+  stopGame() {
+    this.currentRowIndex = 999
+    this.currentColIndex = 999
   }
 
   newTrie() {
@@ -165,21 +180,27 @@ export class WordleService {
     }
   }
 
-  // Getters
-
-  getDifficultLevel() {
-    return this.difficultLevel;
+  alertModel = {
+    icon: 'alert',
+    message: '',
+    showModal: false,
+    textButton: 'Confirmar'
   }
 
-  // getTries() {
-  //   return this.tries;
-  // }
+  setDataAlertModal(icon: string, message: string, showModal: boolean, textButton: string){
+    this.alertModel = {
+      icon,
+      message,
+      showModal, textButton
+    }
+  }
 
+  getDataAlertModal(){
+    return this.alertModel;
+  }
+
+  // Getters
   getMatrixSlots() {
     return this.matrixSlots;
-  }
-
-  getSecretWord(): string {
-    return this.secretWord;
   }
 }
